@@ -4,7 +4,7 @@ kind: Schema
 metadata:
   name: user-bucket
 spec:
-  title: Users
+  title: User
   description: Describe your new bucket
   icon: view_stream
   primary: username
