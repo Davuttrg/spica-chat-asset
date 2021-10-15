@@ -1,8 +1,8 @@
-# BUCKET - Users
+# BUCKET - User
 apiVersion: bucket/v1
 kind: Schema
 metadata:
-  name: users-bucket
+  name: user-bucket
 spec:
   title: Users
   description: Describe your new bucket
@@ -15,12 +15,6 @@ spec:
       type: string
       title: identity
       description: Description of the identity input
-      options:
-        position: bottom
-    username:
-      type: string
-      title: username
-      description: Description of the username input
       options:
         position: bottom
     thumbnail:
@@ -47,35 +41,6 @@ spec:
       description: Description of the surname input
       options:
         position: bottom
-    fcm_token:
-      type: string
-      title: fcm_token
-      description: Description of the fcm_token input
-      options:
-        position: bottom
-    headline:
-      type: textarea
-      title: headline
-      description: Description of the headline input
-      options:
-        position: bottom
-    provider:
-      type: string
-      title: provider
-      description: Description of the provider input
-      options:
-        position: bottom
-      enum:
-        - FACEBOOK
-        - GOOGLE
-        - APPLE
-    last_online_date:
-      type: date
-      title: last_online_date
-      description: Description of the last_online_date input
-      options:
-        position: bottom
-      default: :created_at
     language:
       type: string
       title: language
@@ -86,30 +51,6 @@ spec:
         - en
         - tr
         - ru
-    notification:
-      type: boolean
-      title: notification
-      description: Description of the notification input
-      options:
-        position: bottom
-      default: true
-    timezone:
-      type: number
-      title: timezone
-      description: Description of the timezone input (min)
-      options:
-        position: bottom
-      default: 0
-    visibility:
-      type: string
-      title: visibility
-      description: Description of the visibility input
-      options:
-        position: bottom
-      enum:
-        - public
-        - private
-      default: public
     created_at:
       type: date
       title: created_at
@@ -118,20 +59,6 @@ spec:
         position: bottom
       readOnly: false
       default: :created_at
-    business_account:
-      type: boolean
-      title: business_account
-      description: Description of the business_account input
-      options:
-        position: bottom
-      default: false
-    approved:
-      type: boolean
-      title: approved
-      description: Description of the approved input
-      options:
-        position: bottom
-      default: true
   acl:
     write: true==true
     read: true==true
@@ -139,13 +66,13 @@ spec:
   required:
     - username
 ---
-# BUCKET - Chat Groups
+# BUCKET - Chat
 apiVersion: bucket/v1
 kind: Schema
 metadata:
-  name: chat-groups-bucket
+  name: chat-bucket
 spec:
-  title: Chat Groups
+  title: Chat
   description: Describe your new bucket
   icon: view_stream
   primary: name
@@ -165,14 +92,14 @@ spec:
       options:
         position: left
       default: :created_at
-    last_active:
+    informations:
       type: array
-      title: last_active
+      title: informations
       description: Description of the last_active input
       options:
         position: right
       items:
-        title: Last Active Time
+        title: Items
         type: object
         properties:
           date:
@@ -192,7 +119,7 @@ spec:
             dependent: false
             bucket:
               resourceFieldRef:
-                schemaName: users-bucket
+                schemaName: user-bucket
           unread_messages_count:
             type: number
             title: unread_messages_count
@@ -234,7 +161,7 @@ spec:
       primary: username
       bucket:
         resourceFieldRef:
-          schemaName: users-bucket
+          schemaName: user-bucket
     is_group:
       type: boolean
       title: is_group
@@ -258,19 +185,19 @@ spec:
       dependent: false
       bucket:
         resourceFieldRef:
-          schemaName: users-bucket
+          schemaName: user-bucket
   acl:
     write: true==true
     read: true==true
   order: 12
 ---
-# BUCKET - Messages
+# BUCKET - Message
 apiVersion: bucket/v1
 kind: Schema
 metadata:
-  name: messages-bucket
+  name: message-bucket
 spec:
-  title: Messages
+  title: Message
   description: Describe your new bucket
   icon: view_stream
   primary: message
@@ -301,7 +228,7 @@ spec:
       primary: username
       bucket:
         resourceFieldRef:
-          schemaName: users-bucket
+          schemaName: user-bucket
     chat:
       type: relation
       title: chat
@@ -313,22 +240,10 @@ spec:
       primary: name
       bucket:
         resourceFieldRef:
-          schemaName: chat-groups-bucket
-    post:
-      type: relation
-      title: post
-      description: Description of the post input
-      options:
-        position: bottom
-      relationType: onetoone
-      dependent: false
-      primary: text
-      bucket:
-        resourceFieldRef:
-          schemaName: posts-bucket
-    image:
+          schemaName: chat-bucket
+    file:
       type: storage
-      title: image
+      title: file
       description: Description of the image input
       options:
         position: bottom
