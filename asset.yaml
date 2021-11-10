@@ -7,10 +7,16 @@ spec:
   title: User
   description: Describe your new bucket
   icon: view_stream
-  primary: email
+  primary: username
   readOnly: false
   history: false
   properties:
+    username:
+      type: string
+      title: username
+      description: Description of the username input
+      options:
+        position: bottom
     identity:
       type: string
       title: identity
@@ -41,16 +47,6 @@ spec:
       description: Description of the surname input
       options:
         position: bottom
-    language:
-      type: string
-      title: language
-      description: Description of the language input
-      options:
-        position: bottom
-      enum:
-        - en
-        - tr
-        - ru
     created_at:
       type: date
       title: created_at
@@ -59,6 +55,18 @@ spec:
         position: bottom
       readOnly: false
       default: :created_at
+    friends:
+      type: relation
+      title: friends
+      description: Description of the friends input
+      options:
+        position: left
+      relationType: onetomany
+      dependent: false
+      primary: username
+      bucket:
+        resourceFieldRef:
+          schemaName: user-bucket
   acl:
     write: true==true
     read: true==true
@@ -160,7 +168,7 @@ spec:
         position: left
       relationType: onetoone
       dependent: false
-      primary: email
+      primary: username
       bucket:
         resourceFieldRef:
           schemaName: user-bucket
@@ -216,7 +224,7 @@ spec:
         position: bottom
       relationType: onetoone
       dependent: false
-      primary: email
+      primary: username
       bucket:
         resourceFieldRef:
           schemaName: user-bucket
