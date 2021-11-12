@@ -1,0 +1,339 @@
+# BUCKET - User
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: spica-chat-asset-user-bucket
+spec:
+  title: User
+  description: Describe your new bucket
+  icon: view_stream
+  primary: username
+  readOnly: false
+  history: false
+  properties:
+    username:
+      type: string
+      title: username
+      description: Description of the username input
+      options:
+        position: bottom
+    identity:
+      type: string
+      title: identity
+      description: Description of the identity input
+      options:
+        position: bottom
+    thumbnail:
+      type: storage
+      title: thumbnail
+      description: Description of the thumbnail input
+      options:
+        position: bottom
+    email:
+      type: string
+      title: email
+      description: Description of the email input
+      options:
+        position: bottom
+    name:
+      type: string
+      title: name
+      description: Description of the name input
+      options:
+        position: bottom
+    surname:
+      type: string
+      title: surname
+      description: Description of the surname input
+      options:
+        position: bottom
+    created_at:
+      type: date
+      title: created_at
+      description: Description of the created_at input
+      options:
+        position: bottom
+      readOnly: false
+      default: :created_at
+    friends:
+      type: relation
+      title: friends
+      description: Description of the friends input
+      options:
+        position: left
+      relationType: onetomany
+      dependent: false
+      primary: username
+      bucket:
+        resourceFieldRef:
+          schemaName: spica-chat-asset-user-bucket
+  acl:
+    write: true==true
+    read: true==true
+  order: 0
+---
+# BUCKET - Chat
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: spica-chat-asset-chat-bucket
+spec:
+  title: Chat
+  description: Describe your new bucket
+  icon: view_stream
+  primary: name
+  readOnly: false
+  history: false
+  properties:
+    name:
+      type: string
+      title: name
+      description: Description of the name input
+      options:
+        position: left
+    managers:
+      type: relation
+      title: managers
+      description: Description of the managers input
+      options:
+        position: bottom
+      relationType: onetomany
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: spica-chat-asset-user-bucket
+    informations:
+      type: array
+      title: informations
+      description: Description of the last_active input
+      options:
+        position: right
+      items:
+        title: Items
+        type: object
+        properties:
+          date:
+            type: date
+            title: date
+            description: Description of the date input
+            options:
+              position: bottom
+            default: :created_at
+          user:
+            type: relation
+            title: user
+            description: Description of the user input
+            options:
+              position: bottom
+            relationType: onetoone
+            dependent: false
+            bucket:
+              resourceFieldRef:
+                schemaName: spica-chat-asset-user-bucket
+          unread_messages_count:
+            type: number
+            title: unread_messages_count
+            description: Description of the unread_messages_count input
+            options:
+              position: bottom
+            default: 0
+          status:
+            type: string
+            title: status
+            description: Description of the status input
+            options:
+              position: bottom
+            enum:
+              - active
+              - deleted
+              - requested
+            default: active
+    last_message:
+      type: string
+      title: last_message
+      description: Description of the last_message input
+      options:
+        position: left
+    last_message_time:
+      type: date
+      title: last_message_time
+      description: Description of the last_message_time input
+      options:
+        position: left
+    last_message_owner:
+      type: relation
+      title: last_message_owner
+      description: Description of the last_message_owner input
+      options:
+        position: left
+      relationType: onetoone
+      dependent: false
+      primary: username
+      bucket:
+        resourceFieldRef:
+          schemaName: spica-chat-asset-user-bucket
+    is_group:
+      type: boolean
+      title: is_group
+      description: Description of the is_group input
+      options:
+        position: bottom
+      default: false
+    image:
+      type: storage
+      title: image
+      description: Description of the image input
+      options:
+        position: bottom
+    created_at:
+      type: date
+      title: created_at
+      description: Description of the created_at input
+      options:
+        position: left
+      default: :created_at
+  acl:
+    write: true==true
+    read: true==true
+  order: 1
+---
+# BUCKET - Message
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: spica-chat-asset-message-bucket
+spec:
+  title: Message
+  description: Describe your new bucket
+  icon: view_stream
+  primary: message
+  readOnly: false
+  history: false
+  properties:
+    message:
+      type: string
+      title: message
+      description: Description of the message input
+      options:
+        position: bottom
+    owner:
+      type: relation
+      title: owner
+      description: Description of the owner input
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      primary: username
+      bucket:
+        resourceFieldRef:
+          schemaName: spica-chat-asset-user-bucket
+    chat:
+      type: relation
+      title: chat
+      description: Description of the chat input
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      primary: name
+      bucket:
+        resourceFieldRef:
+          schemaName: spica-chat-asset-chat-bucket
+    image:
+      type: storage
+      title: image
+      description: Description of the image input
+      options:
+        position: bottom
+    created_at:
+      type: date
+      title: created_at
+      description: Description of the created_at input
+      options:
+        position: bottom
+      default: :created_at
+  acl:
+    write: true==true
+    read: true==true
+  order: 2
+---
+# FUNCTION - Set Online
+apiVersion: function/v1
+kind: Function
+metadata:
+  name: spica-chat-asset-set-online-function
+spec:
+  language: javascript
+  timeout: 12
+  environment:
+    - name: IDENTITIY_SECRET_KEY
+      value: fskk1akvi1el2u
+    - name: USERS_BUCKET_ID
+      value: 618ba0b55ee9b9002f154b48
+    - name: CHATS_BUCKET_ID
+      value: 618ba0b55ee9b9002f154b4b
+  dependency:
+    - name: "@spica-devkit/database"
+      version: ^0.9.12
+    - name: "@spica-devkit/identity"
+      version: ^0.9.12
+  title: Set Online
+  code: ./function/spica-chat-asset-set-online-function.js
+  runtime:
+    name: Node
+    language: Javascript
+---
+# FUNCTION - Authorization
+apiVersion: function/v1
+kind: Function
+metadata:
+  name: spica-chat-asset-authorization-function
+spec:
+  language: javascript
+  timeout: 12
+  environment:
+    - name: IDENTITIY_SECRET_KEY
+      value: fskk1akvi1el2u
+    - name: SECRET_API_KEY
+      value: fskk1akvi1elv0
+    - name: USER_BUCKET_ID
+      value: 618ba0b55ee9b9002f154b48
+  dependency:
+    - name: "@spica-devkit/bucket"
+      version: ^0.9.12
+    - name: "@spica-devkit/identity"
+      version: ^0.9.12
+  title: Authorization
+  code: ./function/spica-chat-asset-authorization-function.js
+  runtime:
+    name: Node
+    language: Javascript
+---
+# TRIGGER - default
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: default
+spec:
+  type: http
+  active: true
+  name: default
+  func: spica-chat-asset-set-online-function
+  httpOptions:
+    method: Post
+    path: /online
+---
+# TRIGGER - register
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: register
+spec:
+  type: http
+  active: true
+  name: register
+  func: spica-chat-asset-authorization-function
+  httpOptions:
+    method: Post
+    path: /register
