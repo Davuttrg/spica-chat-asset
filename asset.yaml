@@ -286,6 +286,7 @@ kind: Function
 metadata:
   name: spica-chat-asset-set-online-function
 spec:
+  description: Set Online Operation
   language: javascript
   timeout: 12
   environment:
@@ -318,6 +319,7 @@ kind: Function
 metadata:
   name: spica-chat-asset-authorization-function
 spec:
+  description: Registiration
   language: javascript
   timeout: 12
   environment:
