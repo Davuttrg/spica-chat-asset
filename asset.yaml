@@ -330,7 +330,7 @@ spec:
     - name: SECRET_API_KEY
       valueFrom:
         resourceFieldRef:
-          apiKeyName: chat-identity-secret-apikey
+          apiKeyName: chat-secret-apikey
     - name: USER_BUCKET_ID
       valueFrom:
         resourceFieldRef:
