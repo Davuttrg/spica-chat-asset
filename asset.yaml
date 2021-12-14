@@ -19,7 +19,7 @@ spec:
         position: bottom
     identity_id:
       type: string
-      title: identity
+      title: identity_id
       description: Description of the identity input
       options:
         position: bottom
