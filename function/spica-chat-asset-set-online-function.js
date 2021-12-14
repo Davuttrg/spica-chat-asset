@@ -15,7 +15,7 @@ export default async function (req, res) {
 
     let usersColl = db.collection(`bucket_${USERS_BUCKET_ID}`);
     let identity = await Identity.verifyToken(token).catch(console.log);
-    let users = await usersColl.find({ identity: identity._id }).toArray().catch(console.log);
+    let users = await usersColl.find({ identity_id: identity._id }).toArray().catch(console.log);
     let user = users[0];
     if (object == "chat") {
         let chatsColl = db.collection(`bucket_${CHATS_BUCKET_ID}`);
