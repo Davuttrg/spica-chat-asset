@@ -6,7 +6,7 @@ metadata:
 spec:
   title: User
   description: Describe your new bucket
-  icon: view_stream
+  icon: insert_comment
   primary: username
   readOnly: false
   history: false
@@ -17,7 +17,7 @@ spec:
       description: Description of the username input
       options:
         position: bottom
-    identity:
+    identity_id:
       type: string
       title: identity
       description: Description of the identity input
@@ -80,7 +80,7 @@ metadata:
 spec:
   title: Chat
   description: Describe your new bucket
-  icon: view_stream
+  icon: insert_comment
   primary: name
   readOnly: false
   history: false
@@ -205,7 +205,7 @@ metadata:
 spec:
   title: Message
   description: Describe your new bucket
-  icon: view_stream
+  icon: insert_comment
   primary: message
   readOnly: false
   history: false
@@ -286,7 +286,7 @@ kind: Function
 metadata:
   name: spica-chat-asset-set-online-function
 spec:
-  description: Set Online Operation
+  description: 💬 Set Online Operation
   language: javascript
   timeout: 12
   environment:
@@ -319,7 +319,7 @@ kind: Function
 metadata:
   name: spica-chat-asset-authorization-function
 spec:
-  description: Registiration
+  description:💬 Registiration
   language: javascript
   timeout: 12
   environment:
