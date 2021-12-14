@@ -307,7 +307,7 @@ spec:
       version: ^0.9.12
     - name: "@spica-devkit/identity"
       version: ^0.9.12
-  title: Set Online
+  title: 💬  Set Online
   code: ./function/spica-chat-asset-set-online-function.js
   runtime:
     name: Node
@@ -319,7 +319,7 @@ kind: Function
 metadata:
   name: spica-chat-asset-authorization-function
 spec:
-  description:💬 Registiration
+  description: 💬 Registiration
   language: javascript
   timeout: 12
   environment:
@@ -340,7 +340,7 @@ spec:
       version: ^0.9.12
     - name: "@spica-devkit/identity"
       version: ^0.9.12
-  title: Authorization
+  title: 💬  Authorization
   code: ./function/spica-chat-asset-authorization-function.js
   runtime:
     name: Node
